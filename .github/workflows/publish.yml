@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write # Nécessaire pour la provenance npm (sigstore / SLSA provenance native npm)
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -29,7 +29,5 @@ jobs:
       - name: Build package
         run: npm run build
 
-      - name: Publish to NPM
+      - name: Publish to NPM via Trusted Publishing
         run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

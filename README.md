@@ -1,6 +1,6 @@
 # Faisceau SDK
 
-This SDK provides access to the Faisceau API to secure your AI models against prompt injection attacks.
+This SDK provides access to the Faisceau API to secure your AI models against prompt injection attacks. Learn more at [faisceau.dev](https://faisceau.dev).
 
 ## Installation
 
