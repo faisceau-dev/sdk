@@ -1,24 +1,24 @@
 import { z } from "zod/mini";
 
-interface FaisceauClientOptions {
+export interface FaisceauClientOptions {
   apiKey: string;
   apiUrl?: string;
 }
 
-const faisceauMetadata = z.object({
+export const faisceauMetadata = z.object({
   promptLength: z.number(),
   normalizedLength: z.number(),
   latencyMs: z.number(),
   hasObfuscation: z.boolean(),
 });
 
-const faisceauCategory = z.enum([
+export const faisceauCategory = z.enum([
   "instruction_override",
   "obfuscation",
   "system_prompt_extraction",
 ]);
 
-const faisceauFinding = z.object({
+export const faisceauFinding = z.object({
   ruleId: z.string(),
   category: faisceauCategory,
   severity: z.enum(["low", "medium", "critical"]),
@@ -27,9 +27,9 @@ const faisceauFinding = z.object({
   description: z.string(),
 });
 
-const faisceauFindings = z.array(faisceauFinding);
+export const faisceauFindings = z.array(faisceauFinding);
 
-const faisceauGuardResult = z.object({
+export const faisceauGuardResult = z.object({
   action: z.enum(["block", "allow"]),
   isJailbreak: z.boolean(),
   score: z.number(),
@@ -38,19 +38,24 @@ const faisceauGuardResult = z.object({
   metadata: faisceauMetadata,
 });
 
-const faisceauGuardRequest = z.object({
+export const faisceauGuardRequest = z.object({
   version: z.string(),
   projectId: z.uuid(),
   result: faisceauGuardResult,
 });
 
-type FaisceauGuardRequest = z.infer<typeof faisceauGuardRequest>;
+export type FaisceauMetadata = z.infer<typeof faisceauMetadata>;
+export type FaisceauCategory = z.infer<typeof faisceauCategory>;
+export type FaisceauFinding = z.infer<typeof faisceauFinding>;
+export type FaisceauFindings = z.infer<typeof faisceauFindings>;
+export type FaisceauGuardResult = z.infer<typeof faisceauGuardResult>;
+export type FaisceauGuardRequest = z.infer<typeof faisceauGuardRequest>;
 
-type Json = number | string | boolean | null | Json[] | { [key: string]: Json };
+export type Json = number | string | boolean | null | Json[] | { [key: string]: Json };
 
-type Error<T, E> = { success: false; error: E } | { success: true; data: T };
+export type FaisceauResult<T, E> = { success: false; error: E } | { success: true; data: T };
 
-type ParseError<T, S> = { error: T; metadata?: z.core.$ZodError<S> };
+export type ParseError<T, S> = { error: T; metadata?: z.core.$ZodError<S> };
 
 export class FaisceauClient {
   private apiUrl: string = "https://api.faisceau.dev";
@@ -64,7 +69,7 @@ export class FaisceauClient {
   private async request(
     endpoint: string,
     options?: RequestInit,
-  ): Promise<Error<Json, string>> {
+  ): Promise<FaisceauResult<Json, string>> {
     const url = new URL(endpoint, this.apiUrl);
     const response = await fetch(url, {
       ...options,
@@ -91,7 +96,7 @@ export class FaisceauClient {
   public async guard(
     prompt: string,
   ): Promise<
-    Error<FaisceauGuardRequest, ParseError<string, FaisceauGuardRequest>>
+    FaisceauResult<FaisceauGuardRequest, ParseError<string, FaisceauGuardRequest>>
   > {
     const response = await this.request("v1/guard", {
       method: "POST",

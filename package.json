@@ -2,16 +2,50 @@
   "name": "@faisceau/sdk",
   "version": "0.0.1",
   "description": "This SDK provides access to the Faisceau API to secure your AI models against prompt injection attacks.",
-  "main": "dist/index.js",
   "type": "module",
-  "directories": {
-    "example": "examples"
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "build": "tsc",
+    "prepack": "npm run build",
     "start": "node dist/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faisceau-dev/sdk.git"
+  },
+  "homepage": "https://github.com/faisceau-dev/sdk#readme",
+  "bugs": {
+    "url": "https://github.com/faisceau-dev/sdk/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "faisceau",
+    "ai",
+    "sdk",
+    "prompt injection",
+    "jailbreak",
+    "security",
+    "llm",
+    "guardrails"
+  ],
+  "author": "Faisceau",
+  "license": "MIT",
   "dependencies": {
     "undici-types": "^8.12.3",
     "zod": "^4.6.7"
@@ -20,14 +54,5 @@
     "@types/node": "^26.6.6",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3"
-  },
-  "keywords": [
-    "faisceau",
-    "ai",
-    "sdk",
-    "prompt injection",
-    "security"
-  ],
-  "author": "thomasvergne",
-  "license": "ISC"
+  }
 }
