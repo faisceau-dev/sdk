@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    /* Modern JavaScript & Browser Compatibility: */
+    "target": "ESNext", // Uses the latest ECMAScript features for modern JavaScript support
+
+    "paths": {
+      "@faisceau/sdk": ["../src/index.ts"]
+    },
+
+    /* Module System Settings: */
+    "module": "NodeNext", // Configures Node.js to use ESM module system
+  },
+  "references": [
+    {"path": "../"}
+  ]
+}
