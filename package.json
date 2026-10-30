@@ -1,5 +1,5 @@
 {
-  "name": "sdk",
+  "name": "@faisceau/sdk",
   "version": "0.0.1",
   "description": "This SDK provides access to the Faisceau API to secure your AI models against prompt injection attacks.",
   "main": "dist/index.js",
@@ -28,6 +28,6 @@
     "prompt injection",
     "security"
   ],
-  "author": "",
+  "author": "thomasvergne",
   "license": "ISC"
 }
