@@ -77,6 +77,7 @@ export class FaisceauClient {
         ...options?.headers,
         Authorization: `Bearer ${this.apiKey}`,
       },
+      keepalive: true,
     });
     if (!response.ok) {
       return {
@@ -93,7 +94,34 @@ export class FaisceauClient {
     };
   }
 
-  public async guard(
+  public async unsafeGuard(
+    prompt: string,
+  ): Promise<
+    FaisceauResult<FaisceauGuardRequest, ParseError<string, FaisceauGuardRequest>>
+  > {
+    const response = await this.request("v1/guard", {
+      method: "POST",
+      body: JSON.stringify({ prompt }),
+    });
+
+    if (!response.success) {
+      return {
+        success: false,
+        error: {
+          error: response.error,
+        },
+      };
+    }
+
+    const data = response.data as FaisceauGuardRequest;
+
+    return {
+      success: true,
+      data,
+    };
+  }
+
+  public async safeGuard(
     prompt: string,
   ): Promise<
     FaisceauResult<FaisceauGuardRequest, ParseError<string, FaisceauGuardRequest>>
